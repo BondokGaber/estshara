@@ -85,7 +85,7 @@ class _UserCalBarState extends State<UserCalBar> {
                                 color: const Color(0xff3da8c0),
                                 fontWeight: FontWeight.w700,
                               ),)),
-                              Tab(child: Text("المنتظرة",   style: TextStyle(
+                              Tab(child: Text("قيد الانتظار",   style: TextStyle(
                                 fontFamily: 'Cairo',
                                 fontSize: 13,
                                 color: const Color(0xff3da8c0),

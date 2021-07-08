@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-User userFromMap(String str) => User.fromMap(json.decode(str));
+User userFromMap(String str,key) => User.fromMap(json.decode(str),key);
 
 String userToMap(User data) => json.encode(data.toMap());
 
@@ -17,8 +17,9 @@ class User {
   UserClass user;
   String token;
 
-  factory User.fromMap(Map<String, dynamic> json) => User(
-    user: UserClass.fromMap(json["user"]),
+
+  factory User.fromMap(Map<String, dynamic> json,key) => User(
+    user: UserClass.fromMap(json[key]),
     token: json["token"],
   );
 

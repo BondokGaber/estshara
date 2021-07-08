@@ -1,6 +1,11 @@
+import 'dart:async';
 
+import 'package:estshara/sharedPreferences.dart';
+import 'package:estshara/usercalender.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-
+import 'login.dart';
+import 'usercalenderbar.dart';
 import 'userprofile.dart';
 import 'package:flutter/material.dart';
 import 'rules.dart';
@@ -11,6 +16,19 @@ class UserSetting extends StatefulWidget {
 }
 
 class _UserSettingState extends State<UserSetting> {
+  String name="";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Timer(Duration(seconds: 0),() async {
+      List<String> userData = await getUserData();
+      setState(() {
+        name = userData[2];
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var sHeight = MediaQuery.of(context).size.height;
@@ -28,7 +46,6 @@ class _UserSettingState extends State<UserSetting> {
               top: 0,
               right: 0,
               child: Container(
-
                 decoration: BoxDecoration(
                     image: DecorationImage(
                       image:
@@ -66,7 +83,7 @@ class _UserSettingState extends State<UserSetting> {
                       right: sWidth * .35,
                       top: sHeight * .1,
                       child: Text(
-                        " مرام احمد",
+                        "$name",
                         style: TextStyle(
                           fontFamily: 'Cairo',
                           fontSize: 25,
@@ -120,10 +137,15 @@ class _UserSettingState extends State<UserSetting> {
                           children: [
                             Row(
                               children: [
-                                Text("الحجوزات ",style: TextStyle(
-                                  fontFamily: 'Cairo',
-                                  fontSize: 18,
-                                  color:Colors.white,),),
+                                GestureDetector(
+                        onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) =>UserCalBar()));
+                },
+                                  child: Text("الحجوزات ",style: TextStyle(
+                                    fontFamily: 'Cairo',
+                                    fontSize: 18,
+                                    color:Colors.white,),),
+                                ),
                                 SizedBox(width: sWidth*.02,),
                                 Icon(Icons.payment,color: Colors.white)],
                             ),
@@ -207,6 +229,14 @@ class _UserSettingState extends State<UserSetting> {
                     ),)),
                     SizedBox(width: sWidth*.35,),
                     InkWell(
+                      onTap: () async {
+                        SharedPreferences preferences = await SharedPreferences.getInstance();
+                        preferences.clear();
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => Login()), (
+                            Route<dynamic> route) => false);
+                      },
                       child: Container(
                         height: sHeight * .04,
                         width: sWidth * .55,

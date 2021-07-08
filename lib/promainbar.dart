@@ -25,94 +25,78 @@ class _ProMainBarState extends State<ProMainBar> {
         body: Container(
           width: sWidth,
           height: sHeight,
-          child: Stack(
+          child: Column(
               children: [
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image:
-                          const AssetImage('assets/images/header-bk.png'),
-                          fit: BoxFit.cover,
+                Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image:
+                        const AssetImage('assets/images/header-bk.png'),
+                        fit: BoxFit.cover,
+                      ),
+                      color: Colors.pinkAccent,
+                      ),
+                  width: sWidth,
+                  height: sHeight * .20,
+                  child: Column(
+                    children: [
+                      SizedBox(height: MediaQuery.of(context).padding.top,),
+                      Text(
+                        "الملف الشخصي",
+                        style: TextStyle(
+                          fontFamily: 'Cairo',
+                          fontSize: 20,
+                          color: const Color(0xffffffff),
+                          letterSpacing: 0.3337210845947266,
+                          fontWeight: FontWeight.w700,
                         ),
-                        color: Colors.pinkAccent,
-                        borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(30),
-                            bottomLeft: Radius.circular(30))),
-                    width: sWidth,
-                    height: sHeight * .20,
-                    child: Stack(
-                      children: [
-                        //name
-                        Positioned(
-                          right: sWidth * .45,
-                          top: sHeight * .07,
-                          child: Text(
-                            "الملف الشخصي",
-                            style: TextStyle(
-                              fontFamily: 'Cairo',
-                              fontSize: 25,
-                              color: const Color(0xffffffff),
-                              letterSpacing: 0.3337210845947266,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
-                    ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
                 ),
-                Positioned(
-                  top: sHeight*.19,
-                  right:0,
-                  child: Container(
-                    width: sWidth,
-                    height: sHeight * .7,
-                    child: DefaultTabController(
-                      length: 3,
-                      initialIndex: 2,
-                      child: Scaffold(
-                        body: Column(
-                          children: [
-                            TabBar(
-                              tabs: [
-                                Tab(child: Text("انواع الاستشارة",   style: TextStyle(
-                                  fontFamily: 'Cairo',
-                                  fontSize: 13,
-                                  color: const Color(0xff3da8c0),
-                                  fontWeight: FontWeight.w700,
-                                ),)),
-                                Tab(child: Text(" الشهادات والخبرات",   style: TextStyle(
-                                  fontFamily: 'Cairo',
-                                  fontSize: 13,
-                                  color: const Color(0xff3da8c0),
-                                  fontWeight: FontWeight.w700,
-                                ),)),
-                                Tab(child: Text("الملف الشخصي",   style: TextStyle(
-                                  fontFamily: 'Cairo',
-                                  fontSize: 13,
-                                  color: const Color(0xff3da8c0),
-                                  fontWeight: FontWeight.w700,
-                                ),)),
-                              ],
-                            ),
-                            Flexible(
-                              child: TabBarView(
-                                children: [
-                                  ConsKind(),
-                                  Certificate(),
-                                  ProMain(),
-
-                                ],),
-                            ),
-                          ],
-                        ),),
-                    ),
+                Container(
+                  width: sWidth,
+                  height: sHeight * .8,
+                  child: DefaultTabController(
+                    length: 3,
+                    initialIndex: 2,
+                    child: Scaffold(
+                      body: Column(
+                        children: [
+                          TabBar(
+                            tabs: [
+                              Tab(child: Text("انواع الاستشارة",   style: TextStyle(
+                                fontFamily: 'Cairo',
+                                fontSize: 13,
+                                color: const Color(0xff3da8c0),
+                                fontWeight: FontWeight.w700,
+                              ),)),
+                              Tab(child: Text(" الشهادات والخبرات",   style: TextStyle(
+                                fontFamily: 'Cairo',
+                                fontSize: 13,
+                                color: const Color(0xff3da8c0),
+                                fontWeight: FontWeight.w700,
+                              ),)),
+                              Tab(child: Text("البيانات الشخصية",   style: TextStyle(
+                                fontFamily: 'Cairo',
+                                fontSize: 13,
+                                color: const Color(0xff3da8c0),
+                                fontWeight: FontWeight.w700,
+                              ),)),
+                            ],
+                          ),
+                          Flexible(
+                            child: TabBarView(
+                              children: [
+                                ConsKind(),
+                                Certificate(),
+                                ProMain(),
+                              ],),
+                          ),
+                        ],
+                      ),),
                   ),
-
                 )]
           ),
         )

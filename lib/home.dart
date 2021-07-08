@@ -1,6 +1,14 @@
+import 'package:dotted_line/dotted_line.dart';
+import 'package:estshara/Repo/consultController.dart';
+import 'package:estshara/model/ConsultantModels/ReservationModel.dart';
+import 'package:estshara/model/ConsultantModels/consultProfileModel.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
+
+import 'CardsUI/ConsultantOrdersCards.dart';
+import 'ChatScreen.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -8,465 +16,225 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  ConsultController consultController = new ConsultController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
   @override
   Widget build(BuildContext context) {
-    var sHeight = MediaQuery.of(context).size.height;
-    var sWidth = MediaQuery.of(context).size.width;
-    return SingleChildScrollView(
-      child: Container(
-        width: sWidth,
-        height: sHeight,
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              right: 0,
-              child: Container(
 
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image:
-                      const AssetImage('assets/images/header-bk.png'),
-                      fit: BoxFit.cover,
-                    ),
-                   color: Colors.pinkAccent,
-                    borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(30),
-                        bottomLeft: Radius.circular(30))),
-                width: sWidth,
-                height: sHeight * .35,
-                child: Stack(
-                  children: [
-
-                    //user photo
-                    Positioned(
-                      right: sWidth * .06,
-                      top: sHeight * .08,
-                      child: Container(
-                        width: sWidth * .25,
-                        height: sWidth * .25,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                              Radius.elliptical(9999.0, 9999.0)),
-                          image: DecorationImage(
-                            image:
-                                const AssetImage('assets/images/oprzLB-1.png'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    //consult name
-                    Positioned(
-                      right: sWidth * .35,
-                      top: sHeight * .1,
-                      child: Text(
-                        "د/ احمد محمد",
-                        style: TextStyle(
-                          fontFamily: 'Cairo',
-                          fontSize: 17,
-                          color: const Color(0xffffffff),
-                          letterSpacing: 0.3337210845947266,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    //vote
-                    Positioned(
-                      left: sWidth * .05,
-                      top: sHeight * .1,
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.star_border_sharp,
-                            color: const Color(0xffffc551),
-                          ),
-                          SizedBox(
-                            width: sWidth * .02,
-                          ),
-                          Text(
-                            "4.5",
-                            style: TextStyle(
-                              fontFamily: 'Cairo',
-                              fontSize: 22,
-                              color: const Color(0xffffc551),
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                        ],
-                      ),
-                    ),
-                    //speciality
-                    Positioned(
-                      right: sWidth * .35,
-                      top: sHeight * .13,
-                      child: Container(
-                        width: sWidth * .5,
-                        height: sHeight * .09,
-                        child: Text(
-                          "متخصص في :التغذية وعلاج السمنة والنحافة",
-                          style: TextStyle(
-                            fontFamily: 'Cairo',
-                            fontSize: 13,
-                            color: const Color(0xffffffff),
-                            letterSpacing: 0.3337210845947266,
-                            fontWeight: FontWeight.w700,
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                      ),
-                    ),
-                    //Row Info
-                    Positioned(
-                      right: sWidth * .08,
-                      bottom: sHeight * .03,
-                      child: Container(
-                        width: sWidth * .9,
-                        height: sHeight * .1,
-                        child: Row(
-                          children: [
-                            Column(
-                              children: [
-                                Text(
-                                  "الرصيد المتاح",
-                                  style: TextStyle(
-                                    fontFamily: 'Cairo',
-                                    fontSize: 13,
-                                    color: const Color(0xffffffff),
-                                    letterSpacing: 0.3337210845947266,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: sWidth * .07,
-                                ),
-                                Text(
-                                  "3315",
-                                  style: TextStyle(
-                                    fontFamily: 'Cairo',
-                                    fontSize: 13,
-                                    color: const Color(0xffffffff),
-                                    letterSpacing: 0.3337210845947266,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              width: sWidth * .02,
-                            ),
-                            VerticalDivider(
-                              color: Colors.grey,
-                              thickness: 1.2,
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                  "    التقييمات   ",
-                                  style: TextStyle(
-                                    fontFamily: 'Cairo',
-                                    fontSize: 13,
-                                    color: const Color(0xffffffff),
-                                    letterSpacing: 0.3337210845947266,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: sWidth * .07,
-                                ),
-                                Text(
-                                  "22",
-                                  style: TextStyle(
-                                    fontFamily: 'Cairo',
-                                    fontSize: 13,
-                                    color: const Color(0xffffffff),
-                                    letterSpacing: 0.3337210845947266,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              width: sWidth * .02,
-                            ),
-                            VerticalDivider(
-                              color: Colors.grey,
-                              thickness: 1.2,
-                            ),
-                            Column(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    "عدد الاستشارات",
-                                    style: TextStyle(
-                                      fontFamily: 'Cairo',
-                                      fontSize: 13,
-                                      color: const Color(0xffffffff),
-                                      letterSpacing: 0.3337210845947266,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    "150",
-                                    style: TextStyle(
-                                      fontFamily: 'Cairo',
-                                      fontSize: 13,
-                                      color: const Color(0xffffffff),
-                                      letterSpacing: 0.3337210845947266,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+    return Column(
+      children: [
+        Expanded(
+          flex: 2,
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(image: AssetImage("assets/images/header-bk.png",),fit: BoxFit.fill),
+              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30),bottomRight: Radius.circular(30),)
             ),
-            //Notification
-            Positioned(
-              top: sHeight*.38,
-              right: sWidth*.05,
-              child:Container(
-                  width: sWidth*.85,
-                  height: sHeight*.08,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(11.0),
-                  color: const Color(0xfffce2e6),
-                ),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      top: sHeight*.009,
-                      right: sWidth*.2,
-                      child:  Container(
-                        width: sWidth*.5,
-                        height: sHeight*.06,
-                        child: Text("لديك طلب استشارة هاتفيه بتايخ 2-5-2021",style: TextStyle(
-                          fontFamily: 'Cairo',
-                          fontSize: 13,
-                          color: const Color(0xffffffff),
-                          letterSpacing: 0.3337210845947266,
-                          fontWeight: FontWeight.w700,
-
-                        ), textAlign: TextAlign.right,),
-                      ),
-                    ),
-                    Positioned(
-                      top: sHeight*.009,
-                      right: sWidth*.02,
-                      child:  Container(
-                        width: sWidth * .12,
-                        height: sWidth * .12,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                              Radius.elliptical(9999.0, 9999.0)),
-                          image: DecorationImage(
-                            image:
-                            const AssetImage('assets/images/notification.png'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: sHeight*.001,
-                      left: sWidth*.015,
-                      child:  InkWell(
-                        onTap: (){},
-                        child: Container(
-                          child: Text("مشاهدة التفاصيل",style: TextStyle(
-                            fontFamily: 'Cairo',
-                            fontSize: 12,
-                            color: const Color(0xffc03d53),
-                            letterSpacing: 0.3337210845947266,
-
-                          ), textAlign: TextAlign.right,),
-                        ),
-                      ),
-                    ),
-                   ],
-                ),
-                ),
-              ),
-            //List
-            Positioned(
-              top: sHeight*.46,
-              right: sWidth*.05,
-              child: Container(
-                height: sHeight*.47,
-               width: sWidth*.9,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      top:sWidth*.05 ,
-                      right: sWidth*.08,
-                      child: Text("استشارتك الحالية",style: TextStyle(
-                        fontFamily: 'Cairo',
-                        fontSize: 18,
-                        color: const Color(0xff3da8c0),
-                      ),),),
-                    Positioned(
-                      top:sWidth*.2 ,
-                      right: sWidth*.08,
-                      child: Column(
-                        children: [
-                          Row(
+            child: Column(
+              children: [
+                Expanded(child: SizedBox()),
+                Expanded(
+                  flex: 3,
+                  child: FutureBuilder(
+                    future: consultController.getProfileData(),
+                    builder: (context, snapshot) {
+                      // print(snapshot.data);
+                      consultProfileModel profileModel = snapshot.data;
+                      if(snapshot.hasData) {
+                        return Column(
                           children: [
-                            Text('محمد احمد',  style: TextStyle(
-                              fontFamily: 'Cairo',
-                              fontSize: 15,
-                              color: const Color(0xffaaaaaa),
-                            ),),
-                            SizedBox(width: sWidth*.3,),
-                            Text("اسم المستخدم",style: TextStyle(
-                              fontFamily: 'Cairo',
-                              fontSize: 18,
-                              color: const Color(0xff666666),),),
-                           SizedBox(width: sWidth*.02,),
-                            Icon(Icons.person)],
-                        ),
-                        SizedBox(height: sHeight*.02),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .end,
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .center,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Icon(Icons.star_half,
+                                                  color: Colors.amber,),
+                                                SizedBox(width: 5,),
+                                                Text(profileModel.consultantData.totalRate.toString(), style: TextStyle(
+                                                    color: Colors.amber),)
+                                              ],
+                                            ),
+                                            SizedBox(width: 30,),
+                                            Text(profileModel.consultantData.name,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18),),
+                                          ],
+                                        ),
+                                        SizedBox(height: 10,),
+                                        Container(
+                                            constraints: BoxConstraints(
+                                              maxWidth: 200,
+                                            ),
+                                            // margin: EdgeInsets.symmetric(horizontal: 30),
+                                            child: Text(
+                                              "متخصص في : التغذية وعلاج السمنة والنحافة",
+                                              textAlign: TextAlign.right,
+                                              style: TextStyle(
+                                                  color: Colors.white),)),
+                                      ],
+                                    ),
+                                    SizedBox(width: 20,),
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(40),
+                                      child: profileModel.consultantData.image==null?Image.asset(
+                                        "assets/images/oprzLB-1.png",
+                                        height: 80,
+                                        width: 80,
+                                        fit: BoxFit.fill,):Image.network(
+                                        profileModel.consultantData.image,
+                                        height: 80,
+                                        width: 80,
+                                        fit: BoxFit.fill,),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
                             Row(
                               children: [
-                                Text('02-05-2021',  style: TextStyle(
-                                  fontFamily: 'Cairo',
-                                  fontSize: 15,
-                                  color: const Color(0xffaaaaaa),
-                                ),),
-                                SizedBox(width: sWidth*.3,),
-                                Text("تاريخ الحجز ",style: TextStyle(
-                                  fontFamily: 'Cairo',
-                                  fontSize: 18,
-                                  color: const Color(0xff666666),),),
-                                SizedBox(width: sWidth*.02,),
-                                Icon(Icons.date_range)],
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      Text("عدد الاستشارات", style: TextStyle(
+                                          color: Colors.white, fontSize: 18),),
+                                      SizedBox(height: 5,),
+                                      Text(profileModel.consultantData.totalSessions.toString(), style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold))
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  height: 50, width: 0.5, color: Colors.white,),
+
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      Text("التقييمات", style: TextStyle(
+                                          color: Colors.white, fontSize: 18)),
+                                      SizedBox(height: 5,),
+                                      Text(profileModel.consultantData.reviews.length.toString(), style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),)
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  height: 50, width: 0.5, color: Colors.white,),
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      Text("الرصيد المتاح", style: TextStyle(
+                                          color: Colors.white, fontSize: 18)),
+                                      SizedBox(height: 5,),
+                                      Text(profileModel.consultantData.wallet.availableBalance.toString(), style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold))
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
-                          SizedBox(height: sHeight*.02),
-                          Row(
-                            children: [
-                              Text('02-05-2021',  style: TextStyle(
-                                fontFamily: 'Cairo',
-                                fontSize: 15,
-                                color: const Color(0xffaaaaaa),
-                              ),),
-                              SizedBox(width: sWidth*.3,),
-                              Text("موعد الاستشارة",style: TextStyle(
-                                fontFamily: 'Cairo',
-                                fontSize: 18,
-                                color: const Color(0xff666666),),),
-                              SizedBox(width: sWidth*.02,),
-                              Icon(Icons.timer)],
-                          ),
-                          SizedBox(height: sHeight*.02),
-                          Row(
-                            children: [
-                              Text('مكالمة فيديو',  style: TextStyle(
-                                fontFamily: 'Cairo',
-                                fontSize: 15,
-                                color: const Color(0xffaaaaaa),
-                              ),),
-                              SizedBox(width: sWidth*.3,),
-                              Text("نوع الاستشارة",style: TextStyle(
-                                fontFamily: 'Cairo',
-                                fontSize: 18,
-                                color: const Color(0xff666666),),),
-                              SizedBox(width: sWidth*.02,),
-                              Icon(Icons.timer)],
-                          ),
-                          SizedBox(height: sHeight*.02),
-                          Row(
-                            children: [
-                              Text('60          ',  style: TextStyle(
-                                fontFamily: 'Cairo',
-                                fontSize: 15,
-                                color: const Color(0xffaaaaaa),
-                              ),),
-                              SizedBox(width: sWidth*.3,),
-                              Text("سعر الاستشارة",style: TextStyle(
-                                fontFamily: 'Cairo',
-                                fontSize: 18,
-                                color: const Color(0xff666666),),),
-                              SizedBox(width: sWidth*.02,),
-                              Icon(Icons.person)],
-                          ),],
-                      )
-                    )
-                ],
-                ),
-
-              ),
-            ),
-
-            Positioned(
-          bottom: sHeight*.07,
-              left: sHeight*.01,
-              child:  Dash(
-                  direction: Axis.horizontal,
-                  length: sWidth*.95,
-                  dashLength: 15,
-                  dashColor: Colors.grey),
-            ),
-            Positioned(
-              bottom: sHeight*.08,
-              left: sHeight*.02,
-              child:  Row(
-                children: [
-                  InkWell(
-                      onTap: (){}
-                      ,child: Text('الغاء', style: TextStyle(
-                    fontFamily: 'Cairo',
-                    fontSize: 25,
-                    color: const Color(0xffc03d41),
-                  ),)),
-                  SizedBox(width: sWidth*.5,),
-                  Container(
-                    height: sHeight * .04,
-                    width: sWidth * .32,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(30))),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints.tightFor(
-                          height: sHeight * 1, width: sWidth * 1),
-                      child: ElevatedButton(
-                        child: Text(
-                          'ابدا الجلسة',
-                          style: TextStyle(
-                            fontFamily: 'Cairo',
-                            fontSize: 18,
-                            color: const Color(0xffffffff),
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          elevation: 20,
-                          primary: Colors.cyan,
-                          onPrimary: Colors.orangeAccent,
-                          shape: const BeveledRectangleBorder(
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(5))),
-                        ),
-                        onPressed: () {
-                          // Navigator.push(context,MaterialPageRoute(builder: (context)=>MoMain()));
-                        },
-                      ),
-                    ),
+                            SizedBox(height: 20,),
+                          ],
+                        );
+                      }else{
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    }
                   ),
-
-              ],)
-            )
-
-          ],
+                ),
+              ],
+            ),
+          ),
         ),
-      ),
+        // Container(
+        //   height: 60,
+        //   alignment: Alignment.center,
+        //   margin: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+        //   padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+        //   decoration: BoxDecoration(
+        //     borderRadius: BorderRadius.circular(10),
+        //     color: Colors.red.withOpacity(0.2)
+        //   ),
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     children: [
+        //       Column(
+        //         mainAxisAlignment: MainAxisAlignment.center,
+        //         children: [
+        //           Text("لديك طلب استشارة هاتفية بتاريخ 20/4/2021",style: TextStyle(color: Colors.white),),
+        //           Row(
+        //             children: [
+        //               Text("مشاهدة التفاصيل",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),),
+        //               SizedBox(width: 10,),
+        //               Text("الساعة 10AM - 11PM",style: TextStyle(color: Colors.white))
+        //             ],
+        //           )
+        //         ],
+        //       ),
+        //       SizedBox(width: 10,),
+        //       Icon(Icons.chat_bubble_outline,color: Colors.white,size: 30,),
+        //     ],
+        //   ),
+        // ),
+        SizedBox(height: 40,),
+        InkWell(
+          onTap: (){
+            // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatScreen()));
+
+          },
+          child: Container(
+            alignment: Alignment.centerRight,
+            child: Text("استشاراتك الحالية",style: TextStyle(color:Colors.cyan,fontWeight: FontWeight.bold),),
+          ),
+        ),
+        Expanded(
+          flex: 3,
+          child: FutureBuilder(
+            future: consultController.getReservationData("accepted"),
+            builder: (context, snapshot) {
+              if(snapshot.hasData) {
+                List<ReservationModel> reservationModel=snapshot.data;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: ListView.separated(
+                    itemCount: reservationModel.length,
+                    itemBuilder: (context, index) {
+                      return ConsultCardUI("current", context,reservationModel[index],index,setState);
+                    }, separatorBuilder: (BuildContext context, int index) {
+                    return Divider(color: Colors.grey,);
+                  },
+                  ),
+                );
+              }else{
+                return Center(child: CircularProgressIndicator());
+              }
+            }
+          ),
+        )
+      ],
     );
   }
+
 }

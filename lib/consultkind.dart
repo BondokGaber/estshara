@@ -11,8 +11,8 @@ class ConsKind extends StatefulWidget {
   @override
   _ConsKindState createState() => _ConsKindState();
 }
-BestTutorSite _site = BestTutorSite.javatpoint;
-enum BestTutorSite { javatpoint, w3schools, tutorialandexample }
+BestTutorSite _site = BestTutorSite.t30;
+enum BestTutorSite { t30, t60 }
 String selected = " ";
 class _ConsKindState extends State<ConsKind> {
   @override
@@ -89,10 +89,9 @@ class _ConsKindState extends State<ConsKind> {
                 child:  Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    ListTile(
-                      title: const Text('30 دقيقة '),
+                    ListTile(title: const Text('30 دقيقة '),
                       leading: Radio(
-                        value: BestTutorSite.javatpoint,
+                        value: BestTutorSite.t30,
                         groupValue: _site,
                         onChanged: (BestTutorSite value) {
                           setState(() {
@@ -104,7 +103,7 @@ class _ConsKindState extends State<ConsKind> {
                     ListTile(
                       title: const Text('60 دقيقة'),
                       leading: Radio(
-                        value: BestTutorSite.w3schools,
+                        value: BestTutorSite.t60,
                         groupValue: _site,
                         onChanged: (BestTutorSite value) {
                           setState(() {
@@ -183,7 +182,7 @@ class _ConsKindState extends State<ConsKind> {
                             ListTile(
                               title: const Text('30 دقيقة '),
                               leading: Radio(
-                                value: BestTutorSite.javatpoint,
+                                value: BestTutorSite.t30,
                                 groupValue: _site,
                                 onChanged: (BestTutorSite value) {
                                   setState(() {
@@ -195,7 +194,7 @@ class _ConsKindState extends State<ConsKind> {
                             ListTile(
                               title: const Text('60 دقيقة'),
                               leading: Radio(
-                                value: BestTutorSite.w3schools,
+                                value: BestTutorSite.t60,
                                 groupValue: _site,
                                 onChanged: (BestTutorSite value) {
                                   setState(() {
@@ -272,7 +271,7 @@ class _ConsKindState extends State<ConsKind> {
                             ListTile(
                               title: const Text('30 دقيقة'),
                               leading: Radio(
-                                value: BestTutorSite.javatpoint,
+                                value: BestTutorSite.t30,
                                 groupValue: _site,
                                 onChanged: (BestTutorSite value) {
                                   setState(() {
@@ -284,7 +283,7 @@ class _ConsKindState extends State<ConsKind> {
                             ListTile(
                               title: const Text('60 دقيقة'),
                               leading: Radio(
-                                value: BestTutorSite.w3schools,
+                                value: BestTutorSite.t60,
                                 groupValue: _site,
                                 onChanged: (BestTutorSite value) {
                                   setState(() {

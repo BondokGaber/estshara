@@ -1,18 +1,41 @@
+import 'dart:async';
+
+import 'package:estshara/sharedPreferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'Repo/repository.dart';
 import 'bookconfirm.dart';
 class Payment extends StatefulWidget {
+  int consultant_id;
+  int client_id;
+
+  int appointment_id;
+  int category_id;
+  String type;
+  String consultant_name;
+  String appointmentc;
+
   @override
   _PaymentState createState() => _PaymentState();
+
+  Payment({this.consultant_id, this.client_id, this.appointment_id,
+    this.category_id, this.type,this.appointmentc,this.consultant_name});
 }
 
 class _PaymentState extends State<Payment> {
   String selected = " ";
-
+  Repository _repo = Repository();
+  String name;
   @override
   void initState() {
     selected = " ";
     super.initState();
+    Timer(Duration(seconds: 0),()async{
+      List<String> userData = await getUserData();
+      setState(() {
+        name=userData[2];
+      });
+    });
   }
 
   @override
@@ -65,7 +88,7 @@ class _PaymentState extends State<Payment> {
                                 height: sHeight * .02,
                               ),
                               Text(
-                                "محادثة فيديو",
+                                "${widget.type}",
                                 style: TextStyle(
                                   fontFamily: 'Cairo',
                                   fontSize: 15,
@@ -146,7 +169,7 @@ class _PaymentState extends State<Payment> {
                           readOnly: true,
                           textAlign: TextAlign.end,
                           decoration: InputDecoration(
-                            hintText: 'احمد محمد  ',
+                            hintText: '${widget.consultant_name} ',
                             hintStyle: TextStyle(
                               fontFamily: 'Cairo',
                               fontSize: 12,
@@ -187,7 +210,7 @@ class _PaymentState extends State<Payment> {
                           readOnly: true,
                           textAlign: TextAlign.end,
                           decoration: InputDecoration(
-                            hintText: '20 july 2021  ',
+                            hintText: '${widget.appointmentc}  ',
                             hintStyle: TextStyle(
                               fontFamily: 'Cairo',
                               fontSize: 12,
@@ -228,7 +251,7 @@ class _PaymentState extends State<Payment> {
                           readOnly: true,
                           textAlign: TextAlign.end,
                           decoration: InputDecoration(
-                            hintText: '12:00- 13:00',
+                            hintText: '${widget.appointmentc}',
                             hintStyle: TextStyle(
                               fontFamily: 'Cairo',
                               fontSize: 12,
@@ -421,7 +444,7 @@ class _PaymentState extends State<Payment> {
                                   textAlign: TextAlign.end,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(),
-                                    hintText: 'علي',
+                                    hintText: name,
                                     hintStyle: TextStyle(
                                       fontFamily: 'Cairo',
                                       fontSize: 20,
@@ -460,7 +483,7 @@ class _PaymentState extends State<Payment> {
                                   textAlign: TextAlign.end,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(),
-                                    hintText: 'مرام',
+                                    hintText: name,
                                     hintStyle: TextStyle(
                                       fontFamily: 'Cairo',
                                       fontSize: 20,
@@ -599,6 +622,7 @@ class _PaymentState extends State<Payment> {
                                         BorderRadius.all(Radius.circular(30))),
                                   ),
                                   onPressed: () {
+_repo.makeReserve( consultant_id: widget.consultant_id, appointment_id: widget.appointment_id, type: widget.type, category_id: widget.category_id);
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>BookConfirm()));
                                   },
                                 ),

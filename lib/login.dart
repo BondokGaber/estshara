@@ -1,12 +1,17 @@
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:get/get.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Repo/repository.dart';
 import 'mostsharmain.dart';
 import 'signup.dart';
+import 'forget_pass.dart';
+import 'forget_pass_mail.dart';
+import 'signup_user.dart';
 import 'userluncher.dart';
+
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
@@ -15,12 +20,37 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   Repository _repo = Repository();
 
-  final box = GetStorage();
+  SharedPreferences preferences;
   String password, phone;
   bool signup = false;
   int kind = 0;
+  String kindn;
   Color _colorContainerCons = Colors.white;
   Color _colorContainerUser = Colors.white;
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    Timer(Duration(seconds: 0), () async {
+      preferences = await SharedPreferences.getInstance();
+      print(preferences.getBool("loginState"));
+      if (preferences.getBool("loginState") != null) {
+        if (preferences.getBool("loginState")) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      preferences.getString("type") == "consultant"
+                          ? MoMain()
+                          : UserLuncher()));
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var sHeight = MediaQuery.of(context).size.height;
@@ -59,18 +89,23 @@ class _LoginState extends State<Login> {
                     InkWell(
                       onTap: () {
                         setState(() {
-                          _colorContainerCons = _colorContainerCons == Colors.white
-                              ? Colors.grey
-                              : Colors.white;
-                          _colorContainerUser =Colors.white;
-                          kind = 1;
+                          kindn="consultant";
+                          _colorContainerCons =
+                              _colorContainerCons == Colors.white
+                                  ? Colors.grey
+                                  : Colors.white;
+                          _colorContainerUser = Colors.white;
+                          kind = kind == 1?kind=0:kind=1;
+                          print(kind);
+                          print(kindn);
                         });
                       },
                       child: Container(
                         decoration: BoxDecoration(
                             color: _colorContainerCons,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30),)),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(30),
+                            )),
                         height: sHeight * .07,
                         width: sWidth * .4,
                         child: Row(
@@ -112,11 +147,15 @@ class _LoginState extends State<Login> {
                     InkWell(
                       onTap: () {
                         setState(() {
-                          _colorContainerUser = _colorContainerUser == Colors.white
-                              ? Colors.grey
-                              : Colors.white;
-                          _colorContainerCons =Colors.white;
-                          kind=2;
+                          kindn="client";
+                          _colorContainerUser =
+                              _colorContainerUser == Colors.white
+                                  ? Colors.grey
+                                  : Colors.white;
+                          _colorContainerCons = Colors.white;
+                          kind = kind == 2?kind=0:kind=2;
+                          print(kind);
+                          print(kindn);
                         });
                       },
                       child: Container(
@@ -215,7 +254,7 @@ class _LoginState extends State<Login> {
                         top: sHeight * 0.055,
                         right: sWidth * .06,
                         child: Text(
-                          'البريد الالكتروني',
+                          'رقم الجوال',
                           style: TextStyle(
                             fontFamily: 'Cairo',
                             fontSize: 16,
@@ -232,7 +271,7 @@ class _LoginState extends State<Login> {
                                 color: Colors.white,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(30))),
-                            height: sHeight * .07,
+                            height: sHeight * .08,
                             width: sWidth * .72,
                             child: TextField(
                               onChanged: (v) {
@@ -244,7 +283,8 @@ class _LoginState extends State<Login> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(30))),
                                 hintText:
-                                    '                                البريد الالكتروني',
+                                    'رقم الجوال',
+                                hintTextDirection: TextDirection.rtl
                               ),
                             ),
                           )),
@@ -274,6 +314,9 @@ class _LoginState extends State<Login> {
                             height: sHeight * .07,
                             width: sWidth * .72,
                             child: TextField(
+                              obscureText:true,
+                              enableSuggestions: false,
+                              autocorrect: false,
                               onChanged: (v) {
                                 password = v;
                               },
@@ -283,7 +326,8 @@ class _LoginState extends State<Login> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(30))),
                                 hintText:
-                                    '                                         كلمة المرور',
+                                    ' كلمة المرور',
+                                  hintTextDirection: TextDirection.rtl
                               ),
                             ),
                           )),
@@ -318,38 +362,96 @@ class _LoginState extends State<Login> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(30))),
                               ),
-                              onPressed: () {
-                     if(phone!=null && password!=null  &&  phone!='' && password!=''){
-                       _repo.login_account(phone: phone, password: password).then((value) async{
-                         if(value.user!=null)
-                         {
-                           await box.write('phone', value.user.phone);
+                              onPressed: () async {
+                                if (kind != 0) {
+                                  if (phone != null &&
+                                      password != null &&
+                                      phone != '' &&
+                                      password != '') {
+                                    String fbToken =
+                                        await firebaseMessaging.getToken();
+                                    _repo
+                                        .login_account(
+                                            phone: phone,
+                                            password: password,
+                                            type: kind == 1
+                                                ? "consultant"
+                                                : "client",
+                                            fbToken: fbToken)
+                                        .then((value) async {
+                                      if (value.status == true) {
+                                        preferences.setString(
+                                            'phone', value.userl.phone);
+                                        preferences.setInt('id', value.userl.id);
+                                        preferences.setString(
+                                            'email', value.userl.email);
+                                        preferences.setString(
+                                            'token', value.token);
+                                        preferences.setString(
+                                            'image',
+                                            value.userl.image == null
+                                                ? ""
+                                                : value.userl.image);
+                                        preferences.setString(
+                                            'name', value.userl.name);
+                                        preferences.setString('birthdate',
+                                            value.userl.birthdate.toString());
+                                        preferences.setString(
+                                            'gender', value.userl.gender);
+                                        preferences.setInt(
+                                            'totalRate', value.userl.totalRate);
+                                        preferences.setBool('loginState', true);
+                                        preferences.setString(
+                                            'type', value.userl.type);
 
-                           await box.write('token', value.token);
-
-                           await box.write('image', value.user.image);
-                           await box.write('name', value.user.name);
-                           await box.write('birthdate', value.user.birthdate);
-                           await box.write('gender', value.user.gender);
-                           await box.write('totalRate', value.user.totalRate);
-                            print(box.read('phone'));
-                            print(box.read('token'));
-                           value.user.type =="consultant"
-                               ?Navigator.push(context,MaterialPageRoute(builder: (context)=>MoMain()))
-                               : Navigator.push(context,MaterialPageRoute(builder: (context)=>UserLuncher()));
-                         }else{
-                           var snackBar = SnackBar(content: Text('خطا في كلمة المرور او البريد الالكتروني'));
-                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                         }
-                       });
-                     }
-                     else{
-                     var snackBar = SnackBar(content: Text('من فضلك ادخل البريد الالكتروني و كلمة المرور'));
-                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                              }
-                               // kind == 1 ? Navigator.push(context,MaterialPageRoute(builder: (context)=>MoMain())) :
-                               //  Navigator.push(context,MaterialPageRoute(builder: (context)=>UserLuncher()));
+                                        await FirebaseFirestore.instance
+                                            .collection("Users")
+                                            .where("email",
+                                                isEqualTo: value.userl.email)
+                                            .where("type",
+                                                isEqualTo: value.userl.type)
+                                            .where("phone", isEqualTo: phone)
+                                            .get()
+                                            .then((value) {
+                                          preferences.setString(
+                                              'fr_id',
+                                              value.docs[0]
+                                                  .get('fr_id')
+                                                  .toString());
+                                        });
+                                        value.userl.type == "consultant"
+                                            ? Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        MoMain()))
+                                            : Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        UserLuncher()));
+                                      } else {
+                                        var snackBar = SnackBar(
+                                            content: Text(
+                                                '${value.message}'));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      }
+                                    });
+                                  } else {
+                                    var snackBar = SnackBar(
+                                        content: Text(
+                                            'من فضلك ادخل رقم الهاتف و كلمة المرور'));
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  }
+                                } else {
+                                  var snackBar = SnackBar(
+                                      content: Text(
+                                          'من فضلك حدد اذا كنت استشاري ام مستخدم'));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
                               },
                             ),
                           ),
@@ -359,9 +461,16 @@ class _LoginState extends State<Login> {
                       //forget password
                       Positioned(
                         top: sHeight * .4,
-                        right: sWidth * .26,
+                        right: sWidth * .24,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                       if (kind != 0) {
+                            Navigator.push(context, MaterialPageRoute(builder: (_)=>MailInp(type:kindn)));}
+                        else{var snackBar = SnackBar(
+        content:
+        Text('من فضلك حدد اذا كنت استشاري ام مستخدم'));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);}
+                          },
                           child: Text(
                             'هل  نسيت كلمة المرور؟',
                             style: TextStyle(
@@ -383,8 +492,27 @@ class _LoginState extends State<Login> {
                 top: sHeight * .93,
                 right: sWidth * .28,
                 child: InkWell(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> SIGNUP()));
+                  onTap: () {
+                    if (kind != 0) {
+                      kind == 1
+                          ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SIGNUP(
+                                      kind == 1 ? "consultant" : "client")))
+                          : Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignUser(
+                                      type: kind == 2
+                                          ? "client"
+                                          : "consultant")));
+                    } else {
+                      var snackBar = SnackBar(
+                          content:
+                              Text('من فضلك حدد اذا كنت استشاري ام مستخدم'));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
                   },
                   child: Text.rich(
                     TextSpan(
