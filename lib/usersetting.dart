@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:estshara/sharedPreferences.dart';
-import 'package:estshara/usercalender.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'login.dart';
 import 'usercalenderbar.dart';
 import 'userprofile.dart';
 import 'package:flutter/material.dart';
 import 'rules.dart';
 import 'contactus.dart';
+import 'aboutApp.dart';
+
 class UserSetting extends StatefulWidget {
   @override
   _UserSettingState createState() => _UserSettingState();
@@ -165,14 +165,19 @@ class _UserSettingState extends State<UserSetting> {
                                 Icon(Icons.person_search_rounded,color: Colors.white)],
                             ),
                             SizedBox(height: sHeight*.02),
-                            Row(
-                              children: [
-                                Text("عن التطبيق",style: TextStyle(
-                                    fontFamily: 'Cairo',
-                                    fontSize: 18,
-                                    color: Colors.white),),
-                                SizedBox(width: sWidth*.02,),
-                                Icon(Icons.app_settings_alt,color: Colors.white)],
+                            InkWell(
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (_)=>AboutApp()));
+                              },
+                              child: Row(
+                                children: [
+                                  Text("عن التطبيق",style: TextStyle(
+                                      fontFamily: 'Cairo',
+                                      fontSize: 18,
+                                      color: Colors.white),),
+                                  SizedBox(width: sWidth*.02,),
+                                  Icon(Icons.app_settings_alt,color: Colors.white)],
+                              ),
                             ),
                             SizedBox(height: sHeight*.02),
                             InkWell(
