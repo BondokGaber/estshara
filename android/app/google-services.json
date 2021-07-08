@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "614160231344",
+    "project_id": "estshatat",
+    "storage_bucket": "estshatat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614160231344:android:76ca6d60c98b38cf4d8475",
+        "android_client_info": {
+          "package_name": "com.nr.estshara"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "614160231344-ro38q6eursjvk180ka6qd81qalvgt4qr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAA9V-TXRkVv7J1OwXbJc20S7yw8hiSqOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "614160231344-ro38q6eursjvk180ka6qd81qalvgt4qr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
