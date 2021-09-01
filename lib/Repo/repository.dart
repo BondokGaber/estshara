@@ -27,7 +27,7 @@ class Repository {
   var baseurl = 'https://stshara.com/api';
 
 
-  Future<UserMl> login_account({
+  Future login_account({
     @required String phone,
     @required String password,
     @required String type,
@@ -36,7 +36,7 @@ class Repository {
     print(phone);
     print(password);
     print(fbToken);
-    UserMl data;
+    var data;
     FormData formData = new FormData.fromMap({
       "phone": phone,
       "password": password,
@@ -51,7 +51,12 @@ class Repository {
         .then((value) {
       print('done');
       print(value.data);
-      data = UserMl.fromMap(value.data);
+      if(!value.data['status']){
+        data = null;
+      }
+        else {
+        data = UserMl.fromMap(value.data);
+      }
     });
     //  print(data.result.contactInfo[0].);
     return data;

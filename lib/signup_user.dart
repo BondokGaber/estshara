@@ -11,6 +11,8 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Repo/repository.dart';
 import 'login.dart';
+import 'login.dart';
+import 'signupfinal.dart';
 
 
 class SignUser extends StatefulWidget {
@@ -480,7 +482,7 @@ class _SignUserState extends State<SignUser> {
                                         preferences.setString('birthdate', value.user.birthdate.toString());
                                         preferences.setString('gender', value.user.gender);
                                         preferences.setInt('totalRate', value.user.totalRate);
-                                        preferences.setBool('loginState', true);
+                                        // preferences.setBool('loginState', true);
                                         preferences.setString('type', value.user.type);
                                         await FirebaseFirestore.instance.collection("Users").doc().set({
                                           "email":value.user.email,
@@ -489,7 +491,7 @@ class _SignUserState extends State<SignUser> {
                                           "type": value.user.type
                                         }).then((value) {
                                           preferences.setString('fr_id', fb_id);
-                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>UserHome()));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpFinal()));
                                         });
                                       }else{
                                         var snackBar = SnackBar(content: Text('خطا في كلمة المرور او البريد الالكتروني'));

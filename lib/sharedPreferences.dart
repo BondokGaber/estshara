@@ -6,7 +6,8 @@ Future<List<String>> getUserData() async {
   int id = preferences.getInt("id");
   String jwt = preferences.getString("token");
   String name = preferences.getString("name");
-  return [id.toString(),jwt,name];
+  String image = preferences.getString("image");
+  return [id.toString(),jwt,name,image];
 }
 Future<String> getcatId() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();

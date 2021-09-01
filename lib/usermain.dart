@@ -29,7 +29,7 @@ class _UserMainState extends State<UserMain> {
         unselectedItemColor: Colors.white,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.more_vert,color: Colors.grey,), title: Text("الاعدادات")),
-          BottomNavigationBarItem(icon: Icon(Icons.alarm,color: Colors.grey), title: Text("التنبيهات")),
+          BottomNavigationBarItem(icon: Icon(Icons.notifications_none,color: Colors.grey), title: Text("التنبيهات")),
           BottomNavigationBarItem(icon: Icon(Icons.web_sharp,color: Colors.grey), title: Text("المدونة")),
           BottomNavigationBarItem(icon: Icon(Icons.calendar_today,color: Colors.grey), title: Text("الحجوزات")),
           BottomNavigationBarItem(icon: Icon(Icons.home,color: Colors.grey), title: Text("الرئيسية")),

@@ -74,6 +74,7 @@ class _UserCalBarState extends State<UserCalBar> {
                   height: sHeight * .7,
                   child: DefaultTabController(
                     length: 3,
+                    initialIndex: 2,
                     child: Scaffold(
                       body: Column(
                         children: [

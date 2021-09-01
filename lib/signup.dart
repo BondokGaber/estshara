@@ -259,15 +259,29 @@ class _SIGNUPState extends State<SIGNUP> {
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(30))),
+                                        BorderRadius.only(topLeft:Radius.circular(30),topRight: Radius.circular(30))),
                                 height: sHeight * .07,
                                 width: sWidth * .72,
                                 child: IntlPhoneField(
                                   decoration: InputDecoration(
                                     labelText: 'Phone Number',
                                     border: OutlineInputBorder(
-                                      borderSide: BorderSide(),
-                                    ),
+                                        borderSide: BorderSide(color: Colors.cyan),
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(20))),
+                                    // enabledBorder: OutlineInputBorder(
+                                    //     borderSide: BorderSide(color: Colors.cyan),
+                                    //     borderRadius:
+                                    //     BorderRadius.all(Radius.circular(20))),
+                                    // focusedBorder: OutlineInputBorder(
+                                    //     borderSide: BorderSide(color: Colors.cyan),
+                                    //     borderRadius:
+                                    //     BorderRadius.all(Radius.circular(20))),
+                                    // disabledBorder: OutlineInputBorder(
+                                    //     borderSide: BorderSide(color: Colors.cyan),
+                                    //     borderRadius:
+                                    //     BorderRadius.all(Radius.circular(20))),
+
                                   ),
                                   initialCountryCode: 'LY',
                                   onChanged: (num) {

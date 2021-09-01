@@ -67,14 +67,28 @@ class _ProMainState extends State<ProMain> {
                               color: Colors.white,
                               borderRadius:
                               BorderRadius.all(Radius.circular(15))),
-                          height: sHeight * .07,
+                          height: 50,
                           width: sWidth * .9,
                           child: TextField(
                             textDirection: TextDirection.rtl,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(15))),
+                                  borderSide: BorderSide(color: Colors.cyan),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(7))),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.cyan),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(7))),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.cyan),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(7))),
+                              disabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.cyan),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(7))),
+
                               hintText:
                               profileModel.consultantData.name,
                             ),

@@ -42,21 +42,32 @@ class _AboutAppState extends State<AboutApp> {
                     child: Stack(
                       children: [
                         //name
-                        Positioned(
-                          right: sWidth * .4,
-                          top: sHeight * .08,
-                          child: Text(
-                            "عن التطبيق ",
-                            style: TextStyle(
-                              fontFamily: 'Cairo',
-                              fontSize: 25,
-                              color: const Color(0xffffffff),
-                              letterSpacing: 0.3337210845947266,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            textAlign: TextAlign.center,
+                        Container(
+                          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(icon: Icon(Icons.chevron_left,color: Colors.white,), onPressed: (){
+                                Navigator.pop(context);
+                              }),
+                              Text(
+                                "عن التطبيق",
+                                style: TextStyle(
+                                  fontFamily: 'Cairo',
+                                  fontSize: 20,
+                                  color: const Color(0xffffffff),
+                                  letterSpacing: 0.3337210845947266,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox()
+                            ],
                           ),
-                        ),
+                        )
+
                       ],
                     ) ),
                 Container(

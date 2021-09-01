@@ -39,6 +39,7 @@ class _SignUp2State extends State<SignUp2> {
   Repository repository = Repository();
 
   File imageFile,scienceFile,experienceFile;
+  List<dropdownCat> dropDownCat =[];
 
   var educationController = TextEditingController();
   var experiencesController = TextEditingController();
@@ -46,7 +47,18 @@ class _SignUp2State extends State<SignUp2> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 2),(){
+    Timer(Duration(seconds: 0),()async{
+      CatgoryM cat = await repository.categories();
+      for( var item in cat.catgories){
+        dropDownCat.add(dropdownCat(item.id,item.name));
+      }
+      dropdownValue3 = dropDownCat[0];
+
+      setState(() {
+
+      });
+    });
+    Timer(Duration(seconds: 2),()async{
       setState(() {
 
       });
@@ -293,13 +305,13 @@ class _SignUp2State extends State<SignUp2> {
                               FutureBuilder(
                                 future: repository.categories(),
                                 builder: (context, snapshot) {
-                                  if(snapshot.hasData) {
+                                  if(snapshot.hasData || dropDownCat.length!=0) {
                                     CatgoryM cat = snapshot.data;
-                                    List<dropdownCat> dropDownCat =[];
-                                    for( var item in cat.catgories){
-                                      dropDownCat.add(dropdownCat(item.id,item.name));
-                                    }
-                                    dropdownValue3=dropDownCat[0];
+                                    // List<dropdownCat> dropDownCat =[];
+                                    // for( var item in cat.catgories){
+                                    //   dropDownCat.add(dropdownCat(item.id,item.name));
+                                    // }
+                                    // dropdownValue3=dropDownCat[0];
 
                                     return Container(
                                       decoration: BoxDecoration(
@@ -650,7 +662,7 @@ class _SignUp2State extends State<SignUp2> {
                                       preferences.setString('birthdate', value.user.birthdate.toString());
                                       preferences.setString('gender', value.user.gender);
                                       preferences.setInt('totalRate', value.user.totalRate);
-                                      preferences.setBool('loginState', true);
+                                      // preferences.setBool('loginState', true);
                                       preferences.setString('type', value.user.type);
                                       await FirebaseFirestore.instance.collection("Users").doc().set({
                                         "email":value.user.email,

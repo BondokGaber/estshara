@@ -11,6 +11,8 @@ import 'forget_pass.dart';
 import 'forget_pass_mail.dart';
 import 'signup_user.dart';
 import 'userluncher.dart';
+import 'userluncher.dart';
+import 'usermain.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -45,7 +47,7 @@ class _LoginState extends State<Login> {
                   builder: (context) =>
                       preferences.getString("type") == "consultant"
                           ? MoMain()
-                          : UserLuncher()));
+                          : preferences.getBool("intro")?UserMain():UserLuncher()));
         }
       }
     });
@@ -60,483 +62,476 @@ class _LoginState extends State<Login> {
         child: Container(
           height: sHeight,
           width: sWidth,
-          child: Stack(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(
+                  'assets/images/LOGIN-bk.png',
+                ),
+
+              fit: BoxFit.fill,
+            )
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/images/LOGIN-bk.png',
-                width: sWidth,
-                fit: BoxFit.fill,
-              ),
               //LOGO
-              Positioned(
-                top: sHeight * .15,
-                left: sWidth * .36,
-                child: Container(
-                  width: sWidth * .3,
-                  height: sHeight * .1,
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    fit: BoxFit.fill,
-                  ),
+              Container(
+                width: sWidth * .3,
+                height: sHeight * .1,
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  fit: BoxFit.fill,
                 ),
               ),
               //USER KIND
-              Positioned(
-                top: sHeight * .3,
-                left: sWidth * .06,
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          kindn="consultant";
-                          _colorContainerCons =
-                              _colorContainerCons == Colors.white
-                                  ? Colors.grey
-                                  : Colors.white;
-                          _colorContainerUser = Colors.white;
-                          kind = kind == 1?kind=0:kind=1;
-                          print(kind);
-                          print(kindn);
-                        });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: _colorContainerCons,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(30),
-                            )),
-                        height: sHeight * .07,
-                        width: sWidth * .4,
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: sWidth * .02,
+              SizedBox(height: 50,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        kindn="consultant";
+                        _colorContainerCons =
+                            _colorContainerCons == Colors.white
+                                ? Colors.grey
+                                : Colors.white;
+                        _colorContainerUser = Colors.white;
+                        kind = kind == 1?kind=0:kind=1;
+                        print(kind);
+                        print(kindn);
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: _colorContainerCons,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(30),
+                          )),
+                      height: 50,
+                      width: sWidth * .4,
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: sWidth * .02,
+                          ),
+                          Container(
+                            width: sWidth * .08,
+                            height: sWidth * .08,
+                            decoration: BoxDecoration(
+                                color: Colors.cyan,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30))),
+                            child: Image.asset(
+                              'assets/images/consultant.png',
+                              fit: BoxFit.fill,
                             ),
-                            Container(
-                              width: sWidth * .08,
-                              height: sWidth * .08,
-                              decoration: BoxDecoration(
-                                  color: Colors.cyan,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30))),
-                              child: Image.asset(
-                                'assets/images/consultant.png',
-                                fit: BoxFit.fill,
-                              ),
+                          ),
+                          SizedBox(
+                            width: sWidth * .08,
+                          ),
+                          Text(
+                            "استشاري",
+                            style: TextStyle(
+                              fontFamily: 'Cairo',
+                              fontSize: 16,
+                              color: const Color(0xff3da8c0),
                             ),
-                            SizedBox(
-                              width: sWidth * .08,
-                            ),
-                            Text(
-                              "استشاري",
-                              style: TextStyle(
-                                fontFamily: 'Cairo',
-                                fontSize: 16,
-                                color: const Color(0xff3da8c0),
-                              ),
-                              textAlign: TextAlign.left,
-                            )
-                          ],
-                        ),
+                            textAlign: TextAlign.left,
+                          )
+                        ],
                       ),
                     ),
-                    SizedBox(
-                      width: sWidth * .1,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          kindn="client";
-                          _colorContainerUser =
-                              _colorContainerUser == Colors.white
-                                  ? Colors.grey
-                                  : Colors.white;
-                          _colorContainerCons = Colors.white;
-                          kind = kind == 2?kind=0:kind=2;
-                          print(kind);
-                          print(kindn);
-                        });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: _colorContainerUser,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
-                        height: sHeight * .07,
-                        width: sWidth * .4,
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: sWidth * .02,
+                  ),
+                  SizedBox(
+                    width: sWidth * .1,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        kindn="client";
+                        _colorContainerUser =
+                            _colorContainerUser == Colors.white
+                                ? Colors.grey
+                                : Colors.white;
+                        _colorContainerCons = Colors.white;
+                        kind = kind == 2?kind=0:kind=2;
+                        print(kind);
+                        print(kindn);
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: _colorContainerUser,
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(30))),
+                      height: 50,
+                      width: sWidth * .4,
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: sWidth * .02,
+                          ),
+                          Container(
+                            width: sWidth * .08,
+                            height: sWidth * .08,
+                            decoration: BoxDecoration(
+                                color: Colors.cyan,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30))),
+                            child: Image.asset(
+                              'assets/images/user.png',
+                              fit: BoxFit.fill,
                             ),
-                            Container(
-                              width: sWidth * .08,
-                              height: sWidth * .08,
-                              decoration: BoxDecoration(
-                                  color: Colors.cyan,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30))),
-                              child: Image.asset(
-                                'assets/images/user.png',
-                                fit: BoxFit.fill,
-                              ),
+                          ),
+                          SizedBox(
+                            width: sWidth * .08,
+                          ),
+                          Text(
+                            "مستخدم",
+                            style: TextStyle(
+                              fontFamily: 'Cairo',
+                              fontSize: 16,
+                              color: const Color(0xff3da8c0),
                             ),
-                            SizedBox(
-                              width: sWidth * .08,
-                            ),
-                            Text(
-                              "مستخدم",
-                              style: TextStyle(
-                                fontFamily: 'Cairo',
-                                fontSize: 16,
-                                color: const Color(0xff3da8c0),
-                              ),
-                              textAlign: TextAlign.left,
-                            )
-                          ],
-                        ),
+                            textAlign: TextAlign.left,
+                          )
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
 
+              SizedBox(height: 10,),
               //ENTER NOW
-              Positioned(
-                left: sWidth * .3,
-                top: sHeight * 0.38,
-                child: Text(
-                  'الدخول الان وسجل لاحقا',
-                  style: TextStyle(
-                    fontFamily: 'Cairo',
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white70,
-                  ),
-                  textAlign: TextAlign.left,
+              Text(
+                'الدخول الان وسجل لاحقا',
+                style: TextStyle(
+                  fontFamily: 'Cairo',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white70,
                 ),
+                textAlign: TextAlign.left,
               ),
 
               //Form
-              Positioned(
-                left: sWidth * .1,
-                top: sHeight * 0.42,
-                child: Container(
-                  width: sWidth * .8,
-                  height: sHeight * 0.48,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(30))),
-                  child: Stack(
-                    children: [
-                      SizedBox(
-                        height: sWidth * .01,
-                      ),
-                      Positioned(
-                        top: sHeight * 0.03,
-                        right: sWidth * .3,
-                        child: Text(
-                          'تسجيل الدخول ',
-                          style: TextStyle(
-                            fontFamily: 'Cairo',
-                            fontSize: 18,
-                            color: const Color(0xff262460),
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      SizedBox(
-                        height: sWidth * .03,
-                      ),
-                      //البريد الالكتروني
-                      Positioned(
-                        top: sHeight * 0.055,
-                        right: sWidth * .06,
-                        child: Text(
-                          'رقم الجوال',
-                          style: TextStyle(
-                            fontFamily: 'Cairo',
-                            fontSize: 16,
-                            color: Colors.black54,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      Positioned(
-                          top: sHeight * 0.09,
-                          right: sWidth * .03,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30))),
-                            height: sHeight * .08,
-                            width: sWidth * .72,
-                            child: TextField(
-                              onChanged: (v) {
-                                phone = v;
-                              },
-                              textDirection: TextDirection.rtl,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30))),
-                                hintText:
-                                    'رقم الجوال',
-                                hintTextDirection: TextDirection.rtl
-                              ),
-                            ),
-                          )),
+              SizedBox(height: 15,),
 
-                      //كلمة المرور
-                      Positioned(
-                        top: sHeight * 0.16,
-                        right: sWidth * .03,
-                        child: Text(
-                          'كلمة المرور',
-                          style: TextStyle(
-                            fontFamily: 'Cairo',
-                            fontSize: 16,
-                            color: Colors.black54,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      Positioned(
-                          top: sHeight * 0.2,
-                          right: sWidth * .03,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30))),
-                            height: sHeight * .07,
-                            width: sWidth * .72,
-                            child: TextField(
-                              obscureText:true,
-                              enableSuggestions: false,
-                              autocorrect: false,
-                              onChanged: (v) {
-                                password = v;
-                              },
-                              textDirection: TextDirection.rtl,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30))),
-                                hintText:
-                                    ' كلمة المرور',
-                                  hintTextDirection: TextDirection.rtl
-                              ),
-                            ),
-                          )),
-                      //button
-                      Positioned(
-                        top: sHeight * .29,
-                        right: sWidth * .03,
-                        child: Container(
-                          height: sHeight * .07,
-                          width: sWidth * .72,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30))),
-                          child: ConstrainedBox(
-                            constraints: BoxConstraints.tightFor(
-                                height: sHeight * 1, width: sWidth * 1),
-                            child: ElevatedButton(
-                              child: Text(
-                                'دخول',
-                                style: TextStyle(
-                                  fontFamily: 'Cairo',
-                                  fontSize: 20,
-                                  color: const Color(0xffffffff),
-                                ),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                elevation: 20,
-                                primary: Colors.cyan,
-                                onPrimary: Colors.orangeAccent,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30))),
-                              ),
-                              onPressed: () async {
-                                if (kind != 0) {
-                                  if (phone != null &&
-                                      password != null &&
-                                      phone != '' &&
-                                      password != '') {
-                                    String fbToken =
-                                        await firebaseMessaging.getToken();
-                                    _repo
-                                        .login_account(
-                                            phone: phone,
-                                            password: password,
-                                            type: kind == 1
-                                                ? "consultant"
-                                                : "client",
-                                            fbToken: fbToken)
-                                        .then((value) async {
-                                      if (value.status == true) {
-                                        preferences.setString(
-                                            'phone', value.userl.phone);
-                                        preferences.setInt('id', value.userl.id);
-                                        preferences.setString(
-                                            'email', value.userl.email);
-                                        preferences.setString(
-                                            'token', value.token);
-                                        preferences.setString(
-                                            'image',
-                                            value.userl.image == null
-                                                ? ""
-                                                : value.userl.image);
-                                        preferences.setString(
-                                            'name', value.userl.name);
-                                        preferences.setString('birthdate',
-                                            value.userl.birthdate.toString());
-                                        preferences.setString(
-                                            'gender', value.userl.gender);
-                                        preferences.setInt(
-                                            'totalRate', value.userl.totalRate);
-                                        preferences.setBool('loginState', true);
-                                        preferences.setString(
-                                            'type', value.userl.type);
+              Container(
+                width: sWidth * .8,
+                padding: EdgeInsets.symmetric(vertical: 20),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(30))),
+                child: Column(
+                  children: [
 
-                                        await FirebaseFirestore.instance
-                                            .collection("Users")
-                                            .where("email",
-                                                isEqualTo: value.userl.email)
-                                            .where("type",
-                                                isEqualTo: value.userl.type)
-                                            .where("phone", isEqualTo: phone)
-                                            .get()
-                                            .then((value) {
-                                          preferences.setString(
-                                              'fr_id',
-                                              value.docs[0]
-                                                  .get('fr_id')
-                                                  .toString());
-                                        });
-                                        value.userl.type == "consultant"
-                                            ? Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        MoMain()))
-                                            : Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        UserLuncher()));
-                                      } else {
-                                        var snackBar = SnackBar(
-                                            content: Text(
-                                                '${value.message}'));
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(snackBar);
-                                      }
-                                    });
-                                  } else {
-                                    var snackBar = SnackBar(
-                                        content: Text(
-                                            'من فضلك ادخل رقم الهاتف و كلمة المرور'));
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
-                                  }
-                                } else {
-                                  var snackBar = SnackBar(
-                                      content: Text(
-                                          'من فضلك حدد اذا كنت استشاري ام مستخدم'));
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
-                                }
-                              },
-                            ),
-                          ),
-                        ),
+                    Text(
+                      'تسجيل الدخول ',
+                      style: TextStyle(
+                        fontFamily: 'Cairo',
+                        fontSize: 18,
+                        color: const Color(0xff262460),
                       ),
+                      textAlign: TextAlign.left,
+                    ),
+                    SizedBox(
+                      height: sWidth * .03,
+                    ),
+                    //البريد الالكتروني
+                    Container(
+                      width: sWidth * .65,
+                      margin: EdgeInsets.symmetric(vertical: 5),
 
-                      //forget password
-                      Positioned(
-                        top: sHeight * .4,
-                        right: sWidth * .24,
-                        child: InkWell(
-                          onTap: () {
-                       if (kind != 0) {
-                            Navigator.push(context, MaterialPageRoute(builder: (_)=>MailInp(type:kindn)));}
-                        else{var snackBar = SnackBar(
-        content:
-        Text('من فضلك حدد اذا كنت استشاري ام مستخدم'));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);}
-                          },
-                          child: Text(
-                            'هل  نسيت كلمة المرور؟',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'رقم الجوال',
                             style: TextStyle(
                               fontFamily: 'Cairo',
-                              fontSize: 18,
-                              color: const Color(0xff000000),
+                              fontSize: 16,
+                              color: Colors.black54,
                             ),
                             textAlign: TextAlign.left,
                           ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(30))),
+                      height: sHeight * .08,
+                      width: sWidth * .72,
+                      child: TextField(
+                        onChanged: (v) {
+                          phone = v;
+                        },
+                        textDirection: TextDirection.rtl,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30))),
+                          hintText:
+                              'رقم الجوال',
+                          hintTextDirection: TextDirection.rtl
                         ),
                       ),
-                      //Create account
-                    ],
-                  ),
+                    ),
+
+                    //كلمة المرور
+                    Container(
+                      width: sWidth * .65,
+                      margin: EdgeInsets.symmetric(vertical: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'كلمة المرور',
+                            style: TextStyle(
+                              fontFamily: 'Cairo',
+                              fontSize: 16,
+                              color: Colors.black54,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(30))),
+                      height: sHeight * .07,
+                      width: sWidth * .72,
+                      child: TextField(
+                        obscureText:true,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        onChanged: (v) {
+                          password = v;
+                        },
+                        textDirection: TextDirection.rtl,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30))),
+                          hintText:
+                              ' كلمة المرور',
+                            hintTextDirection: TextDirection.rtl
+                        ),
+                      ),
+                    ),
+                    //button
+                    Container(
+                      height: sHeight * .07,
+                      width: sWidth * .72,
+                      margin: EdgeInsets.symmetric(vertical: 15),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(30))),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints.tightFor(
+                            height: sHeight * 1, width: sWidth * 1),
+                        child: ElevatedButton(
+                          child: Text(
+                            'دخول',
+                            style: TextStyle(
+                              fontFamily: 'Cairo',
+                              fontSize: 20,
+                              color: const Color(0xffffffff),
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            elevation: 20,
+                            primary: Colors.cyan,
+                            onPrimary: Colors.orangeAccent,
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30))),
+                          ),
+                          onPressed: () async {
+                            if (kind != 0) {
+                              if (phone != null &&
+                                  password != null &&
+                                  phone != '' &&
+                                  password != '') {
+                                String fbToken =
+                                    await firebaseMessaging.getToken();
+                                _repo
+                                    .login_account(
+                                        phone: phone,
+                                        password: password,
+                                        type: kind == 1
+                                            ? "consultant"
+                                            : "client",
+                                        fbToken: fbToken)
+                                    .then((value) async {
+                                      if(value!=null){
+                                  if (value.status) {
+                                    preferences.setString(
+                                        'phone', value.userl.phone);
+                                    preferences.setInt('id', value.userl.id);
+                                    preferences.setString(
+                                        'email', value.userl.email);
+                                    preferences.setString(
+                                        'token', value.token);
+                                    preferences.setString(
+                                        'image',
+                                        value.userl.image == null
+                                            ? ""
+                                            : value.userl.image);
+                                    preferences.setString(
+                                        'name', value.userl.name);
+                                    preferences.setBool(
+                                        'intro', true);
+                                    preferences.setString('birthdate',
+                                        value.userl.birthdate.toString());
+                                    preferences.setString(
+                                        'gender', value.userl.gender);
+                                    preferences.setInt(
+                                        'totalRate', value.userl.totalRate);
+                                    preferences.setBool('loginState', true);
+                                    preferences.setString(
+                                        'type', value.userl.type);
+
+                                    await FirebaseFirestore.instance
+                                        .collection("Users")
+                                        .where("email",
+                                            isEqualTo: value.userl.email)
+                                        .where("type",
+                                            isEqualTo: value.userl.type)
+                                        .where("phone", isEqualTo: phone)
+                                        .get()
+                                        .then((value) {
+                                      preferences.setString(
+                                          'fr_id',
+                                          value.docs[0]
+                                              .get('fr_id')
+                                              .toString());
+                                    });
+                                    value.userl.type == "consultant"
+                                        ? Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MoMain()))
+                                        : Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    UserLuncher()));
+                                  } else {
+                                    var snackBar = SnackBar(
+                                        content: Text(
+                                            '${value.message}'));
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  }
+                                      }else{
+                                        var snackBar = SnackBar(
+                                            content: Text(
+                                                "رقم الهاتف او البريد الالكتروني غير صحيح"));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      }
+                                });
+                              } else {
+                                var snackBar = SnackBar(
+                                    content: Text(
+                                        'من فضلك ادخل رقم الهاتف و كلمة المرور'));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              }
+                            } else {
+                              var snackBar = SnackBar(
+                                  content: Text(
+                                      'من فضلك حدد اذا كنت استشاري ام مستخدم'));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+
+                    //forget password
+                    InkWell(
+                      onTap: () {
+                     if (kind != 0) {
+                        Navigator.push(context, MaterialPageRoute(builder: (_)=>MailInp(type:kindn)));}
+                    else{var snackBar = SnackBar(
+        content:
+        Text('من فضلك حدد اذا كنت استشاري ام مستخدم'));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);}
+                      },
+                      child: Text(
+                        'هل  نسيت كلمة المرور؟',
+                        style: TextStyle(
+                          fontFamily: 'Cairo',
+                          fontSize: 18,
+                          color: const Color(0xff000000),
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    //Create account
+                  ],
                 ),
               ),
+              SizedBox(height: 40,),
               //enter register page
-              Positioned(
-                top: sHeight * .93,
-                right: sWidth * .28,
-                child: InkWell(
-                  onTap: () {
-                    if (kind != 0) {
-                      kind == 1
-                          ? Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SIGNUP(
-                                      kind == 1 ? "consultant" : "client")))
-                          : Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignUser(
-                                      type: kind == 2
-                                          ? "client"
-                                          : "consultant")));
-                    } else {
-                      var snackBar = SnackBar(
-                          content:
-                              Text('من فضلك حدد اذا كنت استشاري ام مستخدم'));
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    }
-                  },
-                  child: Text.rich(
-                    TextSpan(
-                      style: TextStyle(
-                        fontFamily: 'Cairo',
-                        fontSize: 17,
-                        color: const Color(0xff606060),
-                      ),
-                      children: [
-                        TextSpan(
-                          text: 'اذا كنت مستخدم جديد ؟',
-                        ),
-                        TextSpan(
-                          text: 'انشأ حساب',
-                          style: TextStyle(
-                            color: const Color(0xff52b1f8),
-                          ),
-                        ),
-                      ],
+              InkWell(
+                onTap: () {
+                  if (kind != 0) {
+                    kind == 1
+                        ? Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SIGNUP(
+                                    kind == 1 ? "consultant" : "client")))
+                        : Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignUser(
+                                    type: kind == 2
+                                        ? "client"
+                                        : "consultant")));
+                  } else {
+                    var snackBar = SnackBar(
+                        content:
+                            Text('من فضلك حدد اذا كنت استشاري ام مستخدم'));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+                },
+                child: Text.rich(
+                  TextSpan(
+                    style: TextStyle(
+                      fontFamily: 'Cairo',
+                      fontSize: 17,
+                      color: const Color(0xff606060),
                     ),
-                    textHeightBehavior:
-                        TextHeightBehavior(applyHeightToFirstAscent: false),
-                    textAlign: TextAlign.left,
+                    children: [
+                      TextSpan(
+                        text: 'اذا كنت مستخدم جديد ؟',
+                      ),
+                      TextSpan(
+                        text: 'انشأ حساب',
+                        style: TextStyle(
+                          color: const Color(0xff52b1f8),
+                        ),
+                      ),
+                    ],
                   ),
+                  textHeightBehavior:
+                      TextHeightBehavior(applyHeightToFirstAscent: false),
+                  textAlign: TextAlign.left,
                 ),
               )
             ],

@@ -43,6 +43,8 @@ class _ConsultListState extends State<ConsultList> {
   @override
   void initState() {
     print(widget.cat);
+    print(widget.subCatId);
+
   }
   @override
   Widget build(BuildContext context) {
@@ -52,8 +54,7 @@ class _ConsultListState extends State<ConsultList> {
 
     return Scaffold(
 
-
-      body: widget.subCatId==null?
+      body: widget.subCatId!=null?
       StreamBuilder<Consultant>(
         stream: repository.consultants(subCatId: widget.subCatId,categoryName: widget.cat).asStream(),
         builder: (context, snapshot) {
@@ -140,24 +141,10 @@ class _ConsultListState extends State<ConsultList> {
                     child: ListView.separated(
                                 shrinkWrap: true,
                                 // padding: const EdgeInsets.all(8),
-                                itemCount: snapshot.data.consultants.length,
+                                itemCount: snapshot.data.consultants.length-3,
                                 itemBuilder: (BuildContext context, int index) {
-                                  final List<String> cost = <String>[
-                                    '45\$',
-                                    '45\$',
-                                    '45\$',
-                                    '45\$',
-                                    '45\$',
-                                    '45\$',
-                                  ];
-                                  final List<String> photo = <String>[
-                                    'assets/images/image-2.png',
-                                    'assets/images/oprzLB-1.png',
-                                    'assets/images/image-2.png',
-                                    'assets/images/oprzLB-1.png',
-                                    'assets/images/image-2.png',
-                                    'assets/images/oprzLB-1.png'
-                                  ];
+
+                                  print("uuiuiuiiuiuuiuiui${snapshot.data.consultants}");
                                   return InkWell(
                                     onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (context)=>UserConsultPro(id:snapshot.data.consultants[index].consultant.id) )); },
                                     child: Card(
@@ -231,7 +218,7 @@ class _ConsultListState extends State<ConsultList> {
                                                 SizedBox(height: sWidth * .03),
                                                 Row(children: [
                                                   Text(
-                                                    "${cost[1]}?",
+                                                    "${snapshot.data.cost}?",
                                                     style: TextStyle(
                                                       fontFamily: 'Poppins',
                                                       fontSize: 17,
@@ -282,16 +269,15 @@ class _ConsultListState extends State<ConsultList> {
                                               child: Column(
                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                 children: [
-                                                  Container(
+                                                  Container(child: snapshot.data.consultants[index].consultant.image!=null
+                                                      ?Image.network(snapshot.data.consultants[index].consultant.image)
+                                                    :Image.asset("assets/images/personGirl.png")
+                                                    ,
                                                     width: sWidth * .2,
                                                     height: sWidth * .2,
                                                     decoration: BoxDecoration(
                                                       borderRadius: BorderRadius.all(
                                                           Radius.elliptical(9999.0, 9999.0)),
-                                                      image: DecorationImage(
-                                                        image:  AssetImage(photo[1]),
-                                                        fit: BoxFit.cover,
-                                                      ),
                                                     ),
                                                   ),
                                                   SizedBox(child: Container( width: sWidth * .2,
@@ -325,9 +311,7 @@ class _ConsultListState extends State<ConsultList> {
           builder: (context, snapshot) {
             if(snapshot.data!=null)
             {
-              if(snapshot.data.consultants.isEmpty){
-                return Center(child: Text("لا يوجد مستشارين بنفس الصفات"));
-              } else return Container(
+              return Container(
                 width: sWidth,
                 height: sHeight,
                 child: Stack(
@@ -403,181 +387,181 @@ class _ConsultListState extends State<ConsultList> {
                       top: sHeight * .20,
                       right: 0,
                       child: Container(
-                        width: sWidth,
-                        height: sHeight * .778,
-                        child:
-                         ListView.separated(
-                                  shrinkWrap: true,
-                                  // padding: const EdgeInsets.all(8),
-                                  itemCount: snapshot.data.consultants.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    final List<String> cost = <String>[
-                                      '45\$',
-                                      '45\$',
-                                      '45\$',
-                                      '45\$',
-                                      '45\$',
-                                      '45\$',
-                                    ];
-                                    final List<String> photo = <String>[
-                                      'assets/images/image-2.png',
-                                      'assets/images/oprzLB-1.png',
-                                      'assets/images/image-2.png',
-                                      'assets/images/oprzLB-1.png',
-                                      'assets/images/image-2.png',
-                                      'assets/images/oprzLB-1.png'
-                                    ];
-                                    return InkWell(
-                                      onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (context)=>UserConsultPro(id:snapshot.data.consultants[index].consultant.id) )); },
-                                      child: Card(
-                                        child: Container(
-                                          width: sWidth*.7,
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
-                                                children: <Widget>[
-                                                  Text(
-                                                    "${snapshot.data.consultants[index].consultant.name}",
-                                                    style: TextStyle(
-                                                      fontFamily: 'Poppins',
-                                                      fontSize: 19,
-                                                      fontWeight: FontWeight.bold,
-                                                      color:  Colors.black ,
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: sWidth * .34),
-                                                  Container(
-                                                    width: sWidth*.6,
-                                                    child: Text("متخصص في : ${ widget.cat}",textAlign: TextAlign.right,
-                                                      style: TextStyle(
-                                                        fontFamily: 'Poppins',
-                                                        fontSize: 17,
-                                                        color:const Color(0x70000000),
-                                                      ),
-                                                      maxLines: 2,
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: sWidth * .34),
-                                                  Row(children: [
-                                                    Text(
-                                                      "${snapshot.data.consultants[index].consultant.totalSessions}",
-                                                      style: TextStyle(
-                                                        fontFamily: 'Poppins',
-                                                        fontSize: 17,
-                                                        color: const Color(0x702F0A99),
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: sWidth * .34),
-                                                    Row(
-                                                      children: [
-                                                        Icon(
-                                                          Icons.star_border_sharp,
-                                                          color: const Color(0xffffc551),
-                                                        ),
-                                                        SizedBox(
-                                                          width: sWidth * .02,
-                                                        ),
-                                                        Text(
-                                                          "${snapshot.data.consultants[index].consultant.totalRate}",
-                                                          style: TextStyle(
-                                                            fontFamily: 'Cairo',
-                                                            fontSize: 22,
-                                                            color: const Color(0xffffc551),
-                                                          ),
-                                                          textAlign: TextAlign.left,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],),
-                                                  SizedBox(height: sWidth * .030),
-                                                  Dash(
-                                                      direction: Axis.horizontal,
-                                                      length: sWidth*.7,
-                                                      dashLength:  sWidth*.02,
-                                                      dashColor: Colors.grey),
-                                                  SizedBox(height: sWidth * .03),
-                                                  Row(children: [
-                                                    Text(
-                                                      "${cost[1]}?",
-                                                      style: TextStyle(
-                                                        fontFamily: 'Poppins',
-                                                        fontSize: 17,
-                                                        color: const Color(0x702F0A99),
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: sWidth * .3),
-                                                    Container(
-                                                      height: sHeight * .04,
-                                                      width: sWidth * .32,
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                          BorderRadius.all(Radius.circular(30))),
-                                                      child: ConstrainedBox(
-                                                        constraints: BoxConstraints.tightFor(
-                                                            height: sHeight * 1, width: sWidth * 1),
-                                                        child: ElevatedButton(
-                                                          child: Text(
-                                                            '   احجز الان',
-                                                            style: TextStyle(
-                                                              fontFamily: 'Cairo',
-                                                              fontSize: 18,
-                                                              color: const Color(0xffffffff),
-                                                            ),
-                                                          ),
-                                                          style: ElevatedButton.styleFrom(
-                                                            elevation: 20,
-                                                            primary: Colors.cyan,
-                                                            onPrimary: Colors.orangeAccent,
-                                                            shape: const RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                BorderRadius.all(Radius.circular(20))),
-                                                          ),
-                                                          onPressed: () {
-                                                            Navigator.push(context,MaterialPageRoute(builder: (context)=>CalenderUI(consultant_id: snapshot.data.consultants[index].consultantId)));
-                                                          },
-                                                        ),
-                                                      ),
-                                                    ),
-
-                                                  ],)
-                                                ],
+                          width: sWidth,
+                          height: sHeight * .778,
+                          child:
+                          ListView.separated(
+                            shrinkWrap: true,
+                            // padding: const EdgeInsets.all(8),
+                            itemCount: snapshot.data.consultants.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final List<String> cost = <String>[
+                                '45\$',
+                                '45\$',
+                                '45\$',
+                                '45\$',
+                                '45\$',
+                                '45\$',
+                              ];
+                              final List<String> photo = <String>[
+                                'assets/images/image-2.png',
+                                'assets/images/oprzLB-1.png',
+                                'assets/images/image-2.png',
+                                'assets/images/oprzLB-1.png',
+                                'assets/images/image-2.png',
+                                'assets/images/oprzLB-1.png'
+                              ];
+                              return InkWell(
+                                onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (context)=>UserConsultPro(id:snapshot.data.consultants[index].consultant.id) )); },
+                                child: Card(
+                                  child: Container(
+                                    width: sWidth*.7,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          children: <Widget>[
+                                            Text(
+                                              "${snapshot.data.consultants[index].consultant.name}",
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 19,
+                                                fontWeight: FontWeight.bold,
+                                                color:  Colors.black ,
                                               ),
-                                              SizedBox(width: sWidth*.02,),
-                                              Container(
-                                                alignment: Alignment.topRight,
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      width: sWidth * .2,
-                                                      height: sWidth * .2,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.all(
-                                                            Radius.elliptical(9999.0, 9999.0)),
-                                                        image: DecorationImage(
-                                                          image:  AssetImage(photo[index]),
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(child: Container( width: sWidth * .2,
-                                                      height: sWidth * .2,),)
-
-                                                  ],
+                                            ),
+                                            SizedBox(width: sWidth * .34),
+                                            Container(
+                                              width: sWidth*.6,
+                                              child: Text("متخصص في : ${ widget.cat}",textAlign: TextAlign.right,
+                                                style: TextStyle(
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 17,
+                                                  color:const Color(0x70000000),
+                                                ),
+                                                maxLines: 2,
+                                              ),
+                                            ),
+                                            SizedBox(width: sWidth * .34),
+                                            Row(children: [
+                                              Text(
+                                                "${snapshot.data.consultants[index].consultant.totalSessions}",
+                                                style: TextStyle(
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 17,
+                                                  color: const Color(0x702F0A99),
                                                 ),
                                               ),
+                                              SizedBox(width: sWidth * .34),
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.star_border_sharp,
+                                                    color: const Color(0xffffc551),
+                                                  ),
+                                                  SizedBox(
+                                                    width: sWidth * .02,
+                                                  ),
+                                                  Text(
+                                                    "${snapshot.data.consultants[index].consultant.totalRate}",
+                                                    style: TextStyle(
+                                                      fontFamily: 'Cairo',
+                                                      fontSize: 22,
+                                                      color: const Color(0xffffc551),
+                                                    ),
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                ],
+                                              ),
+                                            ],),
+                                            SizedBox(height: sWidth * .030),
+                                            Dash(
+                                                direction: Axis.horizontal,
+                                                length: sWidth*.7,
+                                                dashLength:  sWidth*.02,
+                                                dashColor: Colors.grey),
+                                            SizedBox(height: sWidth * .03),
+                                            Row(children: [
+                                              Text(
+                                                "${cost[1]}?",
+                                                style: TextStyle(
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 17,
+                                                  color: const Color(0x702F0A99),
+                                                ),
+                                              ),
+                                              SizedBox(width: sWidth * .3),
+                                              Container(
+                                                height: sHeight * .04,
+                                                width: sWidth * .32,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                    BorderRadius.all(Radius.circular(30))),
+                                                child: ConstrainedBox(
+                                                  constraints: BoxConstraints.tightFor(
+                                                      height: sHeight * 1, width: sWidth * 1),
+                                                  child: ElevatedButton(
+                                                    child: Text(
+                                                      '   احجز الان',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Cairo',
+                                                        fontSize: 18,
+                                                        color: const Color(0xffffffff),
+                                                      ),
+                                                    ),
+                                                    style: ElevatedButton.styleFrom(
+                                                      elevation: 20,
+                                                      primary: Colors.cyan,
+                                                      onPrimary: Colors.orangeAccent,
+                                                      shape: const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                          BorderRadius.all(Radius.circular(20))),
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.push(context,MaterialPageRoute(builder: (context)=>CalenderUI(consultant_id: snapshot.data.consultants[index].consultantId)));
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+
+                                            ],)
+                                          ],
+                                        ),
+                                        SizedBox(width: sWidth*.02,),
+                                        Container(
+                                          alignment: Alignment.topRight,
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                width: sWidth * .2,
+                                                height: sWidth * .2,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.elliptical(9999.0, 9999.0)),
+                                                  image: DecorationImage(
+                                                    image:  AssetImage(photo[index]),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(child: Container( width: sWidth * .2,
+                                                height: sWidth * .2,),)
+
                                             ],
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  },
-                                  separatorBuilder: (BuildContext context, int index) =>
-                                  const Divider(),
-                                )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (BuildContext context, int index) =>
+                            const Divider(),
+                          )
 
 
 

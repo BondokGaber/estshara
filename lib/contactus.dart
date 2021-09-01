@@ -24,10 +24,11 @@ class _ContactUsState extends State<ContactUs> {
             width: sWidth,
             height: sHeight ,
             color: Colors.white,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+            child: Stack(
+              // mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: const AssetImage('assets/images/header-bk.png'),
@@ -36,28 +37,31 @@ class _ContactUsState extends State<ContactUs> {
                     ),
                     width: sWidth,
                     height: sHeight * .20,
-                    child: Stack(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        //name
-                        Positioned(
-                          right: sWidth * .4,
-                          top: sHeight * .08,
-                          child: Text(
-                            "تواصل معنا ",
-                            style: TextStyle(
-                              fontFamily: 'Cairo',
-                              fontSize: 25,
-                              color: const Color(0xffffffff),
-                              letterSpacing: 0.3337210845947266,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            textAlign: TextAlign.center,
+                        IconButton(icon: Icon(Icons.chevron_left,color: Colors.white,), onPressed: (){
+                          Navigator.pop(context);
+                        }),
+                        Text(
+                          "تواصل معنا ",
+                          style: TextStyle(
+                            fontFamily: 'Cairo',
+                            fontSize: 20,
+                            color: const Color(0xffffffff),
+                            letterSpacing: 0.3337210845947266,
+                            fontWeight: FontWeight.w700,
                           ),
+                          textAlign: TextAlign.center,
                         ),
+                        SizedBox()
                       ],
                     ) ),
                 Container(
+                  margin: EdgeInsets.only(top:  sHeight * .17),
                     decoration: BoxDecoration(
+                      color: Colors.white,
                         borderRadius: BorderRadius.only(
                             topRight: Radius.circular(30),
                             topLeft: Radius.circular(30))),
@@ -81,65 +85,115 @@ class _ContactUsState extends State<ContactUs> {
                                 ),
                                 textAlign: TextAlign.left,
                               ),
+
                                 SizedBox(height: sHeight*.03,),
                                 Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                                  height: sHeight * .07,
-                                  width: sWidth * .72,
+                                      color: Color(0xffeeeeee),
+                                      borderRadius: BorderRadius.all(Radius.circular(7))),
+                                  height: 50,
+                                  width: sWidth * .85,
                                   child: TextField(
+                                    textAlign: TextAlign.right,
                                     textDirection: TextDirection.rtl,
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Color(0xffeeeeee)),
                                           borderRadius:
-                                          BorderRadius.all(Radius.circular(10))),
+                                          BorderRadius.all(Radius.circular(7))),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Color(0xffeeeeee)),
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(7))),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Color(0xffeeeeee)),
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(7))),
+                                      disabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Color(0xffeeeeee)),
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(7))),
+
                                       hintText:
-                                      '                                               الاسم',
+                                      'الاسم',
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: sHeight*.03,),
+                                SizedBox(height: 10,),
+
                                 Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                                  height: sHeight * .07,
-                                  width: sWidth * .72,
+                                      color: Color(0xffeeeeee),
+                                      borderRadius: BorderRadius.all(Radius.circular(7))),
+                                  height: 50,
+                                  width: sWidth * .85,
                                   child: TextField(
+                                    textAlign: TextAlign.right,
+
                                     textDirection: TextDirection.rtl,
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Color(0xffeeeeee)),
                                           borderRadius:
-                                          BorderRadius.all(Radius.circular(10))),
+                                          BorderRadius.all(Radius.circular(7))),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Color(0xffeeeeee)),
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(7))),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Color(0xffeeeeee)),
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(7))),
+                                      disabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Color(0xffeeeeee)),
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(7))),
+
                                       hintText:
-                                      '                                               الاسم',
+                                      'البريد الإلكتروني',
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: sHeight*.03,),
+                                SizedBox(height: 10,),
+
                                 Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                                  height: sHeight * .3,
-                                  width: sWidth * .72,
+                                      color: Color(0xffeeeeee),
+                                      borderRadius: BorderRadius.all(Radius.circular(7))),
+                                  // height: 50,
+                                  width: sWidth * .85,
                                   child: TextField(
-                                     maxLines: 6,
+                                    textAlign: TextAlign.right,
+
+                                    maxLines: 6,
                                     textDirection: TextDirection.rtl,
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Color(0xffeeeeee)),
                                           borderRadius:
-                                          BorderRadius.all(Radius.circular(10))),
+                                          BorderRadius.all(Radius.circular(7))),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Color(0xffeeeeee)),
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(7))),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Color(0xffeeeeee)),
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(7))),
+                                      disabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Color(0xffeeeeee)),
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(7))),
+
                                       hintText:
-                                      '                                               الرساله',
+                                      'الرسالة',
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: sHeight*.02,),
+                                SizedBox(height: sHeight*.15,),
                                 Container(
                                   alignment: Alignment.center,
-                                  height: sHeight * .07,
+                                  height: 55,
                                   width: sWidth * .75,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -149,7 +203,7 @@ class _ContactUsState extends State<ContactUs> {
                                         height: sHeight * 1, width: sWidth * 1),
                                     child: ElevatedButton(
                                       child: Text(
-                                        'تعديل',
+                                        'ارسال',
                                         style: TextStyle(
                                           fontFamily: 'Cairo',
                                           fontSize: 20,

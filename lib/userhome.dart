@@ -1,10 +1,9 @@
 import 'dart:async';
-
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:estshara/sharedPreferences.dart';
+import 'package:estshara/userprofile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'Repo/repository.dart';
 import 'cubcat.dart';
 import 'model/UserModels/category.dart';
@@ -23,6 +22,7 @@ class _UserHomeState extends State<UserHome> {
   List <Widget> itemCat =[];
 
   String name="";
+  String image="";
 
 
   @override
@@ -32,6 +32,7 @@ class _UserHomeState extends State<UserHome> {
       List<String> userData = await getUserData();
       setState(() {
         name = userData[2];
+        image = userData[3];
       });
     });
   }
@@ -58,6 +59,7 @@ class _UserHomeState extends State<UserHome> {
                           padding: const EdgeInsets.all(2.0),
                           child: Container(
                               width: MediaQuery.of(context).size.width,
+                              height: 200,
                               margin: EdgeInsets.symmetric(horizontal: 5.0),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
@@ -66,7 +68,7 @@ class _UserHomeState extends State<UserHome> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.network(
-                                    snapshot1.data.sliders[i].image,
+                                    snapshot1.data.sliders[i].image,height: 200,
                                     fit: BoxFit.fill,),
                                 ),
 
@@ -142,54 +144,46 @@ class _UserHomeState extends State<UserHome> {
                   color: const Color(0xFFFFFFFF),
                   child: Stack(
                     children: [
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image:
-                                const AssetImage('assets/images/header-bk.png'),
-                                fit: BoxFit.cover,
-                              ),
+                      Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image:
+                              const AssetImage('assets/images/header-bk.png'),
+                              fit: BoxFit.cover,
+                            ),
 
-                              borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(30),
-                                  bottomLeft: Radius.circular(30))),
-                          width: sWidth,
-                          height: sHeight * .17,
-                          child: Stack(
+                            ),
+                        width: sWidth,
+                        height: sHeight * .20,
+                        child: InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>UserProfile()));
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               //name
-                              Positioned(
-                                right: sWidth * .3,
-                                top: sHeight * .08,
-                                child: Text(
-                                  " $name ,مرحبا ",
-                                  style: TextStyle(
-                                    fontFamily: 'Cairo',
-                                    fontSize: 17,
-                                    color: const Color(0xffffffff),
-                                    letterSpacing: 0.3337210845947266,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                  textAlign: TextAlign.center,
+                              Text(
+                                " $name ,مرحبا ",
+                                style: TextStyle(
+                                  fontFamily: 'Cairo',
+                                  fontSize: 17,
+                                  color: const Color(0xffffffff),
+                                  letterSpacing: 0.3337210845947266,
+                                  fontWeight: FontWeight.w700,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
-                              Positioned(
-                                right: sWidth * .06,
-                                top: sHeight * .06,
-                                child: Container(
-                                  width: sWidth * .20,
-                                  height: sWidth * .20,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.elliptical(9999.0, 9999.0)),
-                                    image: DecorationImage(
-                                      image:
-                                      const AssetImage('assets/images/image-2.png'),
-                                      fit: BoxFit.cover,
-                                    ),
+                              Container(
+                                width: sWidth * .20,
+                                height: sWidth * .20,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.elliptical(9999.0, 9999.0)),
+                                  image: DecorationImage(
+                                    image:
+                                    image==""?AssetImage('assets/images/personGirl.PNG'):NetworkImage(image),
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
@@ -198,164 +192,178 @@ class _UserHomeState extends State<UserHome> {
                         ),
                       ),
                       //search filter
-                      Positioned(
-                        right: sWidth * .08,
-                        top: sHeight * .17,
-                        child: Container(
-                            width: sWidth * .84,
-                            height: sHeight * .05,
-                            child: Row(
-                              children: [
-                                InkWell(child: Container(
-                                  width: 25,
-                                  height: 25,
-                                  child: Container(
-                                    width: sWidth * .08,
-                                    height: sWidth * .08,
+                      Container(
+                        margin: EdgeInsets.only(top: sHeight*0.17),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(30),
+                              topLeft: Radius.circular(30)),
+                        ),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              SizedBox(height: 40,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 45,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.elliptical(2.0, 22.0)),
-                                      image: DecorationImage(
-                                        image:
-                                        const AssetImage('assets/images/FILTER.png'),
-                                        fit: BoxFit.cover,
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: Colors.cyan
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Icon(Icons.filter_list_outlined,color: Colors.white,),
+                                  ),
+                                  SizedBox(width: 5,),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10), color: Colors.white),
+                                    height: 45,
+                                    width: sWidth - 60,
+                                    child: TextField(
+                                      onChanged: (v) {},
+                                      decoration: InputDecoration(
+                                        hintText: 'بحث',
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.grey,width: 0.5),
+                                            borderRadius:
+                                            BorderRadius.all(Radius.circular(7))),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.grey,width: 0.5),
+                                            borderRadius:
+                                            BorderRadius.all(Radius.circular(7))),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.grey,width: 0.5),
+                                            borderRadius:
+                                            BorderRadius.all(Radius.circular(7))),
+                                        disabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(color:Colors.grey,width: 0.5),
+                                            borderRadius:
+                                            BorderRadius.all(Radius.circular(7))),
+
+                                        suffixIcon: Icon(Icons.search),
                                       ),
                                     ),
                                   ),
-                                  ),
-                                )
-                               ,
-                                Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20), color: Colors.transparent),
-                                  width: sWidth * .75,
-                                  height: 50,
-                                  child: TextField(
-                                    onChanged: (v) {},
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                      enabledBorder: InputBorder.none,
-                                      errorBorder: InputBorder.none,
-                                      hintText: ("بحث"),
-                                      hintTextDirection: TextDirection.rtl,
-                                      disabledBorder: InputBorder.none,
-                                      suffixIcon: Icon(Icons.search),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                        ),
-                      ),
-                      // view
-                      Positioned(
-                          top: sHeight*.22,
-                          right: 0,
-                          child: Container(
-                            alignment: Alignment.topCenter,
-                            width: sWidth,
-                            height: sHeight*.22,
-                            child:null??   ClipRRect (
-                              borderRadius: BorderRadius.circular(20),
-                              child: CarouselSlider(
-                                items: itemSliders,
-                                options: CarouselOptions(
-                                  autoPlay: true,
-                                  viewportFraction: .95,
-                                  aspectRatio: 2,
-                                  height: size.height * .35,
-                                  enlargeCenterPage: true,
-                                ),
+                                ],
                               ),
-                            ),
+                              SizedBox(height: 20,),
 
-                          )),
-                      //notify
-                      Positioned(
-                        top: sHeight*.46,
-                        right: sWidth*.05,
-                        child:Container(
-                          width: sWidth*.85,
-                          height: sHeight*.08,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(11.0),
-                            color: const Color(0xfffce2e6),
-                          ),
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                top: sHeight*.009,
-                                right: sWidth*.2,
-                                child:  Container(
-                                  width: sWidth*.5,
-                                  height: sHeight*.067,
-                                  child: Text("لديك موعد استشارة هاتفيه بتاريخ 2-5-2021",
-                                    style: TextStyle(
-                                      fontFamily: 'Cairo',
-                                      fontSize: 11,
-                                      color: const Color(0xffffffff),
-                                    ),
-                                    textAlign: TextAlign.right,),
+                              // view
+                              // Container(
+                              //   alignment: Alignment.topCenter,
+                              //   width: sWidth,
+                              //   height: sHeight*.22,
+                              //   child:null??   ClipRRect (
+                              //     borderRadius: BorderRadius.circular(20),
+                              //     child: CarouselSlider(
+                              //       items: itemSliders,
+                              //
+                              //       options: CarouselOptions(
+                              //         autoPlay: true,
+                              //         viewportFraction: .95,
+                              //         aspectRatio: 2,
+                              //         // dot
+                              //         height: size.height * .35,
+                              //         enlargeCenterPage: true,
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                                child: SizedBox(
+                                    height: 200.0,
+                                    child: Carousel(
+                                      images: itemSliders,
+                                      dotSpacing: 15.0,
+                                      dotIncreasedColor: Colors.cyan.withOpacity(0.2),
+                                      indicatorBgPadding: 5.0,
+                                      dotSize: 4.0,
+                                      dotColor: Colors.grey[300],
+                                      dotBgColor: Colors.cyan.withOpacity(0),
+                                      borderRadius: true,
+                                    )
                                 ),
                               ),
-                              Positioned(
-                                top: sHeight*.009,
-                                right: sWidth*.02,
-                                child:  Container(
-                                  width: sWidth * .08,
-                                  height: sWidth * .08,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.elliptical(9999.0, 9999.0)),
-                                    image: DecorationImage(
-                                      image:
-                                      const AssetImage('assets/images/info.png'),
-                                      fit: BoxFit.cover,
-                                    ),
+                              //notify
+                              // Container(
+                              //   width: sWidth*.85,
+                              //   height: sHeight*.08,
+                              //   decoration: BoxDecoration(
+                              //     borderRadius: BorderRadius.circular(11.0),
+                              //     color: const Color(0xfffce2e6),
+                              //   ),
+                              //   child: Stack(
+                              //     children: [
+                              //       Positioned(
+                              //         top: sHeight*.009,
+                              //         right: sWidth*.2,
+                              //         child:  Container(
+                              //           width: sWidth*.5,
+                              //           height: sHeight*.067,
+                              //           child: Text("لديك موعد استشارة هاتفيه بتاريخ 2-5-2021",
+                              //             style: TextStyle(
+                              //               fontFamily: 'Cairo',
+                              //               fontSize: 11,
+                              //               color: const Color(0xffffffff),
+                              //             ),
+                              //             textAlign: TextAlign.right,),
+                              //         ),
+                              //       ),
+                              //       Container(
+                              //         width: sWidth * .08,
+                              //         height: sWidth * .08,
+                              //         decoration: BoxDecoration(
+                              //           borderRadius: BorderRadius.all(
+                              //               Radius.elliptical(9999.0, 9999.0)),
+                              //           image: DecorationImage(
+                              //             image:
+                              //             const AssetImage('assets/images/info.png'),
+                              //             fit: BoxFit.cover,
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       InkWell(
+                              //         onTap: (){},
+                              //         child: Container(
+                              //           child: Text("اعادة جدولة",
+                              //             style: TextStyle(
+                              //               fontFamily: 'Cairo',
+                              //               fontSize: 11,
+                              //               color: const Color(0xffc03d53),
+                              //             ), textAlign: TextAlign.right,),
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              SingleChildScrollView(
+                                child: Container(
+                                  height: sHeight*.38,
+                                  width: sWidth*.9,
+                                  child:
+
+                                  GridView.count(
+                                    crossAxisCount: 2,
+                                    children: [
+                                      for( var items in itemCat )
+                                        items
+
+                                    ],
                                   ),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: sHeight*.001,
-                                right: sWidth*.15,
-                                child:  InkWell(
-                                  onTap: (){},
-                                  child: Container(
-                                    child: Text("اعادة جدولة",
-                                      style: TextStyle(
-                                        fontFamily: 'Cairo',
-                                        fontSize: 11,
-                                        color: const Color(0xffc03d53),
-                                      ), textAlign: TextAlign.right,),
-                                  ),
+
                                 ),
                               ),
                             ],
                           ),
                         ),
                       ),
-                      Positioned(
-                        top: sHeight*.54,
-                        right: sWidth*.05,
-                        child: SingleChildScrollView(
-                          child: Container(
-                            height: sHeight*.38,
-                            width: sWidth*.9,
-                            child:
 
-                            GridView.count(
-                              crossAxisCount: 2,
-                              children: [
-                                for( var items in itemCat )
-                                 items
-
-                              ],
-                            ),
-
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 );}
